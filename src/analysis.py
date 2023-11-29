@@ -1,6 +1,5 @@
-import pandas as pd
 import src.movement_rates as mr
-from statsmodels.stats.anova import AnovaRM
+
 
 
 def analysis_rates(raw_rates_input_file, results_output_path, raw_rates_output_filename,
@@ -61,7 +60,7 @@ def analysis_rates(raw_rates_input_file, results_output_path, raw_rates_output_f
                                                                   analysis_parameter_dict)
 
     # run ANOVA on parameters
-    run_anovas(rate_parameters_output_path, dependent_vars, independent_vars, 'participant')
+    mr.run_anovas(rate_parameters_output_path, dependent_vars, independent_vars, 'participant')
 
     # perform a cluster-based permutation test to identify significant differences
     cluster_output_path = mr.perform_cluster_based_permutation(normalized_rates_output_path, results_output_path, permutest_output_filename,
@@ -69,17 +68,3 @@ def analysis_rates(raw_rates_input_file, results_output_path, raw_rates_output_f
                                                                permutation_dict['n_permutations'], permutation_dict['percentile_cutoff'])
 
 
-def run_anovas(input_file, dependent_vars, independent_vars, group):
-    data = pd.read_csv(input_file)
-    for metric in dependent_vars:
-        anova = AnovaRM(data=data,
-                        depvar=metric,
-                        subject=group,
-                        within=independent_vars)
-        fitted_anova = anova.fit()
-
-        print(f'Results from ANOVA with '
-              f'\nDEPENDENT variable: {metric.upper()}; '
-              f'\nINDEPENDENT variables: {[x.upper() for x in independent_vars]}, '
-              f'\nGROUPED by: {group.upper()}\n\n')
-        print(fitted_anova)

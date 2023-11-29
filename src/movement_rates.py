@@ -3,6 +3,7 @@ import pandas as pd
 import src.helper_funcs as helper
 import src.cluster_based_permutation as cmp
 from src.helper_funcs import filter_data
+from statsmodels.stats.anova import AnovaRM
 
 
 def get_movement_rates_by_participant(input_file, output_path, output_file, onset_column, offset_column,
@@ -242,3 +243,19 @@ def get_uniform_cdf(first_trial_start, last_trial_start, first_trial_end, last_t
             raise ValueError(
                 f'{val} is a very weird value. {first_trial_start, last_trial_start, first_trial_end, last_trial_end}')
     return np.array(uniform_dist)
+
+
+def run_anovas(input_file, dependent_vars, independent_vars, group):
+    data = pd.read_csv(input_file)
+    for metric in dependent_vars:
+        anova = AnovaRM(data=data,
+                        depvar=metric,
+                        subject=group,
+                        within=independent_vars)
+        fitted_anova = anova.fit()
+
+        print(f'Results from ANOVA with '
+              f'\nDEPENDENT variable: {metric.upper()}; '
+              f'\nINDEPENDENT variables: {[x.upper() for x in independent_vars]}, '
+              f'\nGROUPED by: {group.upper()}\n\n')
+        print(fitted_anova)
