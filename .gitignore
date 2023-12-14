@@ -6,3 +6,5 @@ results/
 src.egg-info/
 src/__pycache__/
 */.ipynbcheckpoints/
+.Rhistory
+*/.ipynb_checkpoint
