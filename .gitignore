@@ -7,4 +7,4 @@ src.egg-info/
 src/__pycache__/
 */.ipynbcheckpoints/
 .Rhistory
-*/.ipynb_checkpoint
+*/.ipynb_checkpoints/
