@@ -12,7 +12,8 @@ dependencies:
   - pip:
       - ipykernel==6.27.1
       - ipython==8.18.1
-      - ipywidgets==8.1.1- jupyter==1.0.0
+      - ipywidgets==8.1.1
+      - jupyter==1.0.0
       - jupyter-client==8.6.0
       - jupyter-console==6.6.3
       - jupyter-core==5.5.0
